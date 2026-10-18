@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Packages | Parcel Dispatch{% endblock %}
+{% block content %}
+  <section class="page-heading">
+    <div>
+      <p class="eyebrow">Inventory</p>
+      <h1>Packages</h1>
+      <p>Search, assign, and update package details.</p>
+    </div>
+    <a class="button" href="/packages/new">Add package</a>
+  </section>
+  <section class="panel">
+    <form class="filters" method="get" action="/packages">
+      <label>Search
+        <input type="search" name="q" value="{{ q }}" placeholder="Package ID, recipient, or address"
+          hx-get="/packages" hx-trigger="keyup changed delay:300ms" hx-target="#package-table"
+          hx-select="#package-table" hx-swap="outerHTML" hx-include="[name='status']">
+      </label>
+      <label>Status
+        <select name="status" hx-get="/packages" hx-trigger="change" hx-target="#package-table"
+          hx-select="#package-table" hx-swap="outerHTML" hx-include="[name='q']">
+          <option value="">All statuses</option>
+          {% for value in ["pending", "in_transit", "delivered"] %}
+            <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ value|replace("_", " ")|title }}</option>
+          {% endfor %}
+        </select>
+      </label>
+    </form>
+    {% include "partials/package_table.html" %}
+  </section>
+{% endblock %}

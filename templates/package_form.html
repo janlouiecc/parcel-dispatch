@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{% if package %}Edit{% else %}Add{% endif %} package | Parcel Dispatch{% endblock %}
+{% block content %}
+  <section class="page-heading">
+    <div>
+      <p class="eyebrow">Package details</p>
+      <h1>{% if package %}Edit package #{{ package.id }}{% else %}Add package{% endif %}</h1>
+    </div>
+    <a class="button button-secondary" href="/packages">Back to packages</a>
+  </section>
+  <form class="panel form-grid" method="post" action="{% if package %}/packages/{{ package.id }}/edit{% else %}/packages{% endif %}">
+    <label>Recipient
+      <input name="recipient" required maxlength="120" value="{{ package.recipient if package else '' }}">
+    </label>
+    <label>Street address
+      <input name="address" required maxlength="240" value="{{ package.address if package else '' }}">
+    </label>
+    <label>City
+      <input name="city" required maxlength="100" value="{{ package.city if package else '' }}">
+    </label>
+    <label>State / region
+      <input name="state" required maxlength="80" value="{{ package.state if package else '' }}">
+    </label>
+    <label>Postal code
+      <input name="postal_code" required maxlength="20" value="{{ package.postal_code if package else '' }}">
+    </label>
+    <label>Delivery deadline
+      <input name="deadline" maxlength="80" value="{{ package.deadline if package else 'End of day' }}">
+    </label>
+    <label>Weight (kg)
+      <input name="weight_kg" type="number" min="0" step="0.01" required value="{{ package.weight_kg if package else '0' }}">
+    </label>
+    <label>Assign truck
+      <select name="truck_id">
+        <option value="0">Unassigned</option>
+        {% for truck in trucks %}
+          <option value="{{ truck.id }}" {% if package and package.truck_id == truck.id %}selected{% endif %}>{{ truck.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="full-width">Notes
+      <textarea name="notes" rows="3" maxlength="1000">{{ package.notes if package else '' }}</textarea>
+    </label>
+    <div class="form-actions full-width">
+      <button class="button" type="submit">Save package</button>
+      <a class="button button-secondary" href="/packages">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Parcel Dispatch{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">Parcel Dispatch</a>
+    <nav aria-label="Main navigation">
+      <a href="/packages">Packages</a>
+      <a href="/trucks">Trucks</a>
+      <a href="/dispatch">Dispatch</a>
+      <a href="/tracking">Tracking</a>
+      <a href="/settings">Settings</a>
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

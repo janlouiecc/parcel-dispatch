@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Settings | Parcel Dispatch{% endblock %}
+{% block content %}
+  <section class="page-heading">
+    <div><p class="eyebrow">Configuration</p><h1>Routing settings</h1><p>Configure the depot and distances used by simulation mode.</p></div>
+  </section>
+  <section class="two-column">
+    <form class="panel form-stack" method="post" action="/settings">
+      <h2>Depot and simulation distance</h2>
+      <label>Depot address<input name="hub_address" required maxlength="240" value="{{ hub_address }}"></label>
+      <p class="muted">To add or replace a simulation distance, enter both full endpoint addresses (including city, state, and postal code) and their distance in miles.</p>
+      <label>From address<input name="from_address" maxlength="240"></label>
+      <label>To address<input name="to_address" maxlength="240"></label>
+      <label>Distance (miles)<input name="distance_miles" type="number" min="0" step="0.1" value="0"></label>
+      <button class="button" type="submit">Save settings</button>
+      {% if message %}<p class="alert">{{ message }}</p>{% endif %}
+      {% if error %}<p class="alert alert-error">{{ error }}</p>{% endif %}
+    </form>
+    <section class="panel">
+      <h2>Configured simulation distances</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>From</th><th>To</th><th>Distance</th></tr></thead>
+          <tbody>
+            {% for item in distances %}
+              <tr><td>{{ item.from_address }}</td><td>{{ item.to_address }}</td><td>{{ "%.1f"|format(item.distance_miles) }} mi</td></tr>
+            {% else %}
+              <tr><td colspan="3" class="empty">No simulation distances configured.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+{% endblock %}

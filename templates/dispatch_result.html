@@ -1,0 +1,16 @@
+{% if error %}
+  <p class="alert alert-error">{{ error }}</p>
+{% else %}
+  <p class="alert">{{ truck_name }} route planned using {{ mode }} routing. Total distance: <strong>{{ "%.1f"|format(total_miles) }} mi</strong>. Confirm each stop from Tracking as deliveries are completed.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stop</th><th>Package</th><th>Address</th><th>Leg (mi)</th><th>ETA (UTC)</th></tr></thead>
+      <tbody>
+        {% for stop in route %}
+          <tr><td>{{ loop.index }}</td><td>#{{ stop.package_id }}</td><td>{{ stop.address }}</td><td>{{ "%.1f"|format(stop.distance_miles) }}</td><td>{{ stop.eta_at }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <a href="/tracking">View package tracking</a>
+{% endif %}

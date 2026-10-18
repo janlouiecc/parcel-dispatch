@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Dispatch | Parcel Dispatch{% endblock %}
+{% block content %}
+  <section class="page-heading">
+    <div><p class="eyebrow">Routing</p><h1>Dispatch a truck</h1><p>Plan a route from the configured depot. Packages move to in-transit; confirm delivery from Tracking.</p></div>
+  </section>
+  <section class="two-column">
+    <form class="panel form-stack" method="post" action="/dispatch" hx-post="/dispatch" hx-target="#dispatch-result" hx-swap="innerHTML">
+      <label>Truck
+        <select name="truck_id" required>
+          {% for truck in trucks %}
+            <option value="{{ truck.id }}">{{ truck.name }} — {{ truck.pending_count }} package(s)</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Routing mode
+        <select name="mode">
+          <option value="simulation">Simulation — configured distance matrix</option>
+          <option value="provider">Road routing — OpenRouteService</option>
+        </select>
+      </label>
+      <p class="muted">Provider mode requires <code>OPENROUTESERVICE_API_KEY</code>. Routing errors are shown without silently switching modes.</p>
+      <button class="button" type="submit">Plan and dispatch</button>
+    </form>
+    <section id="dispatch-result" class="panel" aria-live="polite">
+      {% if error %}<p class="alert alert-error">{{ error }}</p>{% elif message %}<p class="alert">{{ message }}</p>{% else %}<p class="muted">Route details will appear here after dispatch.</p>{% endif %}
+    </section>
+  </section>
+{% endblock %}

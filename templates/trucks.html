@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Trucks | Parcel Dispatch{% endblock %}
+{% block content %}
+  <section class="page-heading">
+    <div><p class="eyebrow">Fleet</p><h1>Trucks</h1><p>Assign packages before dispatching a route.</p></div>
+  </section>
+  <section class="two-column">
+    <div class="panel">
+      <h2>Fleet</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Truck</th><th>Capacity</th><th>Assigned</th><th>Undelivered</th></tr></thead>
+          <tbody>
+            {% for truck in trucks %}
+              <tr><td>{{ truck.name }}</td><td>{{ truck.capacity }}</td><td>{{ truck.package_count }}</td><td>{{ truck.undelivered_count or 0 }}</td></tr>
+            {% else %}
+              <tr><td colspan="4" class="empty">No trucks have been added.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <form class="panel form-stack" method="post" action="/trucks">
+      <h2>Add truck</h2>
+      <label>Name<input name="name" required maxlength="80" placeholder="Van 4"></label>
+      <label>Package capacity<input name="capacity" type="number" min="1" max="100" value="16" required></label>
+      <button class="button" type="submit">Add truck</button>
+    </form>
+  </section>
+{% endblock %}

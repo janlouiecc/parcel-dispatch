@@ -1,0 +1,20 @@
+<div id="package-table" class="table-wrap">
+  <table>
+    <thead><tr><th>ID</th><th>Recipient</th><th>Destination</th><th>Truck</th><th>Status</th><th>ETA (UTC)</th><th></th></tr></thead>
+    <tbody>
+      {% for package in packages %}
+        <tr>
+          <td>#{{ package.id }}</td>
+          <td>{{ package.recipient }}</td>
+          <td>{{ package.full_address }}</td>
+          <td>{{ package.truck_name or "Unassigned" }}</td>
+          <td><span class="badge badge-{{ package.status }}">{{ package.status|replace("_", " ")|title }}</span></td>
+          <td>{{ package.eta_at or "—" }}</td>
+          <td><a href="/packages/{{ package.id }}/edit">Edit</a></td>
+        </tr>
+      {% else %}
+        <tr><td colspan="7" class="empty">No packages match this filter.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

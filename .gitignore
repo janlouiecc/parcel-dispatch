@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Local application data
+data/*.sqlite
+data/*.sqlite3
+data/*.db
+data/*.sqlite-*
+data/*.db-*
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# Editor and operating-system files
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini

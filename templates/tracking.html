@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Tracking | Parcel Dispatch{% endblock %}
+{% block content %}
+  <section class="page-heading">
+    <div><p class="eyebrow">Status lookup</p><h1>Package tracking</h1><p>Check current delivery state or status at a point in time (UTC).</p></div>
+  </section>
+  <section class="panel">
+    <form class="filters" method="get" action="/tracking">
+      <label>Status as of (UTC)
+        <input type="datetime-local" name="as_of" value="{{ as_of }}">
+      </label>
+      <button class="button" type="submit">Check status</button>
+    </form>
+    {% if error %}<p class="alert alert-error">{{ error }}</p>{% endif %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Recipient</th><th>Destination</th><th>Status</th><th>ETA (UTC)</th><th>Delivered (UTC)</th><th></th></tr></thead>
+        <tbody>
+          {% for package in packages %}
+            <tr>
+              <td>#{{ package.id }}</td><td>{{ package.recipient }}</td>
+              <td>{{ package.full_address }}</td>
+              <td><span class="badge badge-{{ package.status_at_time }}">{{ package.status_at_time|replace("_", " ")|title }}</span></td>
+              <td>{{ package.eta_at or "—" }}</td>
+              <td>{{ package.delivered_at or "—" }}</td>
+              <td>
+                {% if package.status == "in_transit" %}
+                  <form method="post" action="/packages/{{ package.id }}/deliver">
+                    <button class="button" type="submit">Mark delivered</button>
+                  </form>
+                {% endif %}
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="7" class="empty">No packages found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

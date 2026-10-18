@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Parcel Dispatch{% endblock %}
+{% block content %}
+  <section class="page-heading">
+    <div>
+      <p class="eyebrow">Operations</p>
+      <h1>Delivery dashboard</h1>
+      <p>Manage package assignments, dispatch routes, and delivery status.</p>
+    </div>
+    <a class="button" href="/packages/new">Add package</a>
+  </section>
+  <section class="stats" aria-label="Current delivery totals">
+    <article class="stat-card"><span>Pending</span><strong>{{ counts.pending }}</strong></article>
+    <article class="stat-card"><span>In transit</span><strong>{{ counts.in_transit }}</strong></article>
+    <article class="stat-card"><span>Delivered</span><strong>{{ counts.delivered }}</strong></article>
+    <article class="stat-card"><span>Trucks</span><strong>{{ truck_count }}</strong></article>
+  </section>
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Packages</h2>
+      <a href="/packages">View all</a>
+    </div>
+    {% with packages=recent %}{% include "partials/package_table.html" %}{% endwith %}
+  </section>
+{% endblock %}
